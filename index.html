@@ -1,0 +1,522 @@
+
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Тест — Уровень жизненной энергии</title>
+
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #fbf7ef;          /* кремовый */
+      --card: #ffffffcc;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --line: rgba(17,24,39,.10);
+      --green: #7aa88f;       /* нежно-зелёный */
+      --green2:#e2f1e8;
+      --shadow: 0 16px 40px rgba(17,24,39,.10);
+      --radius: 20px;
+    }
+
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      font-family: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(900px 600px at 20% 10%, rgba(122,168,143,.20), transparent 60%),
+        radial-gradient(800px 550px at 90% 30%, rgba(122,168,143,.14), transparent 60%),
+        radial-gradient(900px 650px at 50% 100%, rgba(255,255,255,.70), transparent 60%),
+        var(--bg);
+      min-height: 100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 28px 14px;
+    }
+
+    .wrap{
+      width: min(860px, 100%);
+      display:grid;
+      gap: 14px;
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      padding: 22px;
+      backdrop-filter: blur(10px);
+    }
+
+    header .title{
+      font-size: clamp(22px, 3vw, 30px);
+      line-height: 1.2;
+      margin: 0 0 6px 0;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    header .sub{
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .pill{
+      display:inline-flex;
+      gap: 8px;
+      align-items:center;
+      background: var(--green2);
+      border: 1px solid rgba(122,168,143,.25);
+      color: #2f5c46;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .q-top{
+      display:flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items:flex-start;
+      margin-bottom: 10px;
+    }
+
+    .q-num{
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .question{
+      font-size: 20px;
+      font-weight: 800;
+      margin: 6px 0 14px 0;
+      letter-spacing: -0.01em;
+    }
+
+    .hint{
+      margin: 0 0 14px 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .options{
+      display:grid;
+      gap: 10px;
+      margin: 10px 0 18px 0;
+    }
+
+    .opt{
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.85);
+      border-radius: 16px;
+      padding: 12px 12px;
+      display:flex;
+      gap: 10px;
+      cursor: pointer;
+      transition: transform .08s ease, border-color .12s ease, background .12s ease;
+      user-select: none;
+      align-items:flex-start;
+    }
+
+    .opt:hover{
+      transform: translateY(-1px);
+      border-color: rgba(122,168,143,.35);
+    }
+
+    .radio{
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid rgba(122,168,143,.50);
+      margin-top: 2px;
+      flex: 0 0 auto;
+      display:grid;
+      place-items:center;
+      background: #fff;
+    }
+
+    .radio::after{
+      content:"";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--green);
+      transform: scale(0);
+      transition: transform .12s ease;
+    }
+
+    .opt.selected{
+      border-color: rgba(122,168,143,.55);
+      background: rgba(226,241,232,.55);
+    }
+    .opt.selected .radio::after{ transform: scale(1); }
+
+    .opt .txt{
+      font-size: 15px;
+      line-height: 1.35;
+    }
+
+    .actions{
+      display:flex;
+      gap: 10px;
+      justify-content: space-between;
+      align-items:center;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+
+    .btn{
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.92);
+      padding: 10px 14px;
+      border-radius: 14px;
+      cursor:pointer;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      transition: transform .08s ease, border-color .12s ease, background .12s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); border-color: rgba(122,168,143,.35); }
+
+    .btn.primary{
+      background: linear-gradient(180deg, rgba(122,168,143,.95), rgba(102,150,128,.95));
+      border-color: rgba(122,168,143,.55);
+      color: #fff;
+      box-shadow: 0 10px 24px rgba(122,168,143,.25);
+    }
+    .btn.primary:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+      box-shadow:none;
+      transform:none;
+    }
+
+    .note{
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+      margin: 0;
+    }
+
+    .result-title{
+      font-size: 22px;
+      font-weight: 900;
+      margin: 0 0 8px 0;
+      letter-spacing: -0.02em;
+    }
+
+    .result-block{
+      border: 1px solid rgba(122,168,143,.25);
+      background: rgba(226,241,232,.45);
+      border-radius: 18px;
+      padding: 14px 14px;
+      margin: 12px 0 16px 0;
+    }
+
+    .result-head{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      margin-bottom: 6px;
+    }
+
+    .badge{
+      background: #fff;
+      border: 1px solid rgba(122,168,143,.25);
+      color: #2f5c46;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-weight: 900;
+      font-size: 12px;
+      letter-spacing: .02em;
+    }
+
+    .result-text{
+      margin: 0;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .small{
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    footer{
+      text-align:center;
+      color: var(--muted);
+      font-size: 12px;
+      padding: 6px 0 0 0;
+    }
+
+    @media (max-width: 520px){
+      .card{ padding: 18px; }
+      .question{ font-size: 18px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <header class="card">
+      <div style="display:flex; gap:12px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap;">
+        <div>
+          <h1 class="title">🌿 Какой у тебя уровень жизненной энергии?</h1>
+          <p class="sub">
+            Мягкий мини-тест, чтобы прислушаться к себе.
+            Отвечай интуитивно — здесь нет «правильно» и «неправильно».
+          </p>
+        </div>
+        <div class="pill" id="topPill">5 вопросов • 1–2 минуты</div>
+      </div>
+    </header>
+
+    <main class="card" id="mainCard" aria-live="polite">
+      <!-- dynamic content -->
+    </main>
+
+    <footer>
+      Сделано бережно 💚
+    </footer>
+  </div>
+
+  <script>
+    // Варианты имеют скрытые баллы (3/2/1) — пользователь их не видит, но они нужны для подсчёта.
+    const questions = [
+      {
+        q: "Как ты обычно просыпаешься утром?",
+        gentle: "Небольшая подсказка: вспомни последние 3–5 дней, а не один «идеальный» или «плохой» день.",
+        options: [
+          { t: "Легко, с ощущением «нового дня»", p: 3 },
+          { t: "Нормально, но без особого энтузиазма", p: 2 },
+          { t: "Тяжело, будто совсем не отдохнул(а)", p: 1 },
+        ],
+      },
+      {
+        q: "Как ты реагируешь на небольшие сложности в течение дня?",
+        gentle: "Дышим. Даже один маленький шаг — уже поддержка для себя.",
+        options: [
+          { t: "Спокойно, нахожу решение", p: 3 },
+          { t: "Немного раздражаюсь, но справляюсь", p: 2 },
+          { t: "Сразу чувствую упадок и напряжение", p: 1 },
+        ],
+      },
+      {
+        q: "Есть ли у тебя ощущение радости от повседневных мелочей?",
+        gentle: "Можно просто заметить: бывает ли «тепло внутри» хотя бы иногда.",
+        options: [
+          { t: "Да, часто замечаю приятные моменты", p: 3 },
+          { t: "Иногда, если специально обращу внимание", p: 2 },
+          { t: "Почти нет, всё кажется однообразным", p: 1 },
+        ],
+      },
+      {
+        q: "Как ты чувствуешь своё тело?",
+        gentle: "Прислушайся к ощущениям прямо сейчас: плечи, челюсть, дыхание.",
+        options: [
+          { t: "Лёгкость, тепло, живость", p: 3 },
+          { t: "В целом нормально, но бывают зажимы и усталость", p: 2 },
+          { t: "Часто чувствую тяжесть или напряжение", p: 1 },
+        ],
+      },
+      {
+        q: "Какое состояние тебе сейчас ближе?",
+        gentle: "Можно выбрать самый мягкий и честный вариант — без оценок и чувства вины.",
+        options: [
+          { t: "Хочу двигаться, создавать, жить", p: 3 },
+          { t: "Живу «на автомате», без резких чувств", p: 2 },
+          { t: "Хочется тишины и чтобы меня не трогали", p: 1 },
+        ],
+      },
+    ];
+
+    // Пороговые значения:
+    // 5 вопросов × (1..3) = 5..15
+    // Мы делаем 3 уровня без показа чисел:
+    // 13–15: высокая, 9–12: средняя, 5–8: низкая
+    const thresholds = {
+      high: 13,
+      mid: 9
+    };
+
+    let step = 0;
+    const answers = Array(questions.length).fill(null); // хранит выбранный индекс варианта
+
+    const mainCard = document.getElementById("mainCard");
+    const topPill = document.getElementById("topPill");
+
+    function render(){
+      topPill.textContent = `5 вопросов • ${Math.min(step+1, 5)}/5`;
+
+      if(step < questions.length){
+        renderQuestion(step);
+      } else {
+        renderResult();
+      }
+    }
+
+    function renderQuestion(i){
+      const item = questions[i];
+      const selected = answers[i];
+
+      mainCard.innerHTML = `
+        <div class="q-top">
+          <div>
+            <div class="q-num">Вопрос ${i+1} из ${questions.length}</div>
+            <div class="question">${escapeHtml(item.q)}</div>
+            <p class="hint">💛 ${escapeHtml(item.gentle)}</p>
+          </div>
+        </div>
+
+        <div class="options" role="radiogroup" aria-label="Варианты ответа">
+          ${item.options.map((opt, idx) => `
+            <div class="opt ${selected === idx ? "selected" : ""}" role="radio"
+                 aria-checked="${selected === idx ? "true" : "false"}"
+                 tabindex="0"
+                 data-idx="${idx}">
+              <div class="radio" aria-hidden="true"></div>
+              <div class="txt">${escapeHtml(opt.t)}</div>
+            </div>
+          `).join("")}
+        </div>
+
+        <div class="actions">
+          <button class="btn" id="backBtn" ${i===0 ? "disabled" : ""}>← Назад</button>
+          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <p class="note" id="note">
+              ${selected === null ? "Выбери вариант — и мы пойдём дальше 🌿" : "Отлично. Можно двигаться дальше ✨"}
+            </p>
+            <button class="btn primary" id="nextBtn" ${selected === null ? "disabled" : ""}>
+              ${i === questions.length-1 ? "Узнать результат" : "Дальше →"}
+            </button>
+          </div>
+        </div>
+      `;
+
+      // listeners for options
+      mainCard.querySelectorAll(".opt").forEach(el => {
+        el.addEventListener("click", () => selectOption(i, Number(el.dataset.idx)));
+        el.addEventListener("keydown", (e) => {
+          if(e.key === "Enter" || e.key === " "){
+            e.preventDefault();
+            selectOption(i, Number(el.dataset.idx));
+          }
+        });
+      });
+
+      // back/next
+      document.getElementById("backBtn").addEventListener("click", () => {
+        if(step > 0) { step--; render(); }
+      });
+
+      document.getElementById("nextBtn").addEventListener("click", () => {
+        // вариант выбран обязательно (кнопка активна только тогда)
+        if(step < questions.length-1) {
+          step++;
+          render();
+        } else {
+          step = questions.length; // result screen
+          render();
+        }
+      });
+    }
+
+    function selectOption(qIndex, optIndex){
+      answers[qIndex] = optIndex;
+      // перерисуем текущий шаг, чтобы подсветить выбор и активировать кнопку
+      renderQuestion(qIndex);
+    }
+
+    function renderResult(){
+      const total = answers.reduce((sum, optIndex, qi) => {
+        const points = questions[qi].options[optIndex]?.p ?? 0;
+        return sum + points;
+      }, 0);
+
+      const level = getLevel(total);
+      const result = resultCopy(level);
+
+      topPill.textContent = "Готово • Результат";
+
+      mainCard.innerHTML = `
+        <div class="result-title">✨ Твой результат</div>
+        <p class="hint">Ты уже молодец/молодец, что остановился(лась) и прислушался(лась) к себе 💛</p>
+
+        <div class="result-block">
+          <div class="result-head">
+            <span class="badge">${escapeHtml(result.label)}</span>
+          </div>
+          <p class="result-text">${escapeHtml(result.text)}</p>
+          <p class="small">${escapeHtml(result.softTip)}</p>
+        </div>
+
+        <div class="actions">
+          <button class="btn" id="restartBtn">↻ Пройти ещё раз</button>
+          <p class="note">Хочешь — напиши в комментариях, что откликнулось сильнее всего 🌿</p>
+        </div>
+      `;
+
+      document.getElementById("restartBtn").addEventListener("click", () => {
+        for(let i=0;i<answers.length;i++) answers[i] = null;
+        step = 0;
+        render();
+      });
+    }
+
+    function getLevel(total){
+      // high: 13–15, mid: 9–12, low: 5–8
+      if(total >= thresholds.high) return "high";
+      if(total >= thresholds.mid) return "mid";
+      return "low";
+    }
+
+    function resultCopy(level){
+      if(level === "high"){
+        return {
+          label: "Высокий уровень энергии",
+          text: "Сейчас в тебе много живости и внутреннего ресурса. Ты довольно устойчив(а), легче замечаешь хорошее и быстрее возвращаешься в баланс.",
+          softTip: "Бережно сохраняй это: сон, простые радости, паузы, тёплое общение — как маленькие «зарядки» для души."
+        };
+      }
+      if(level === "mid"){
+        return {
+          label: "Средний уровень энергии",
+          text: "Энергия у тебя есть, но она может быстро расходоваться. Иногда ты держишься «на силе воли» и забываешь вовремя восстановиться.",
+          softTip: "Поддержи себя малым: на 10% больше сна, на 10% больше воздуха и движения, и хотя бы одна приятная мелочь в день — для себя."
+        };
+      }
+      return {
+        label: "Низкий уровень энергии",
+        text: "Похоже, ты устал(а) и долго был(а) сильным(ой). Сейчас телу и душе важно замедление, отдых и мягкая забота о себе.",
+        softTip: "Это не про слабость. Это сигнал: «мне нужно восстановление». Начни с самого простого — сон, вода, тишина, тёплое отношение к себе."
+      };
+    }
+
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    // старт
+    render();
+  </script>
+</body>
+</html>
